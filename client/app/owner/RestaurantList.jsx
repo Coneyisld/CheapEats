@@ -21,7 +21,7 @@ class RestaurantList extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/owner/restaurants', {params: {owner: this.state.owner}})
+    axios.get('/owner/restaurants')
       .then(res => {
         this.setState({
           restaurants: res.data,

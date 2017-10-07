@@ -8,21 +8,21 @@ class Owner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      owner: 'Roscoe', // ownerId
+      owner: null, // ownerId
       selected: null,
       cheapItems: [],
       deals: [],
     }
   }
 
-  // componentDidMount() {
-  //   axios.get('/owner/restaurants', {params: {owner: this.state.owner}})
-  //     .then(res => {
-  //       this.setState({
-  //         restaurants: res.data,
-  //       });
-  //     });
-  // }
+  componentDidMount() {
+    axios.get('/owner/login')
+      .then(res => {
+        this.setState({
+          owner: res.data,
+        });
+      });
+  }
 
 
   selectRestaurant(name) {
@@ -31,9 +31,11 @@ class Owner extends React.Component {
     });
     Promise.all([
       axios.get('/owner/deals', 
-        {params: {restaurant: this.state.selected}}),
+        {params: {restaurant: name}}),
       axios.get('/owner/cheapitems', 
-        {params: {restaurant: this.state.selected}}),
+        {params: {restaurant: name}}),
+      // axios.get(`/owner/deals?restaurant=${this.state.selected}`),
+      // axios.get(`/owner/cheapitems?restaurant=${this.state.selected}`),
     ]).then(data => {
       this.setState({
           deals: data[0].data,

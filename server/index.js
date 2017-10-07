@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const auth = require('./middleware/auth.js');
 const routes = require('./routes');
+const cors = require('cors');
 // const redis = require('redis').createClient();
 // const RedisStore = require('connect-redis')(session);
 const db = require('../database/index.js').pool;
@@ -30,6 +31,7 @@ const sessionOpts = {
 
 auth(app, passport);
 
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../client/public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

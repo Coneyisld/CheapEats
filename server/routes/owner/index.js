@@ -15,7 +15,11 @@ const ownerRoutes = (app, passport) =>{
   app.get('/owner', isLoggedIn,  (req, res, next) => {
     // display owner page
     console.log('GET owner');
-    res.sendFile(path.join(__dirname, '../../../client/app/owner/owner.html'));
+    res.header('owner', req.user.login).sendFile(path.join(__dirname, '../../../client/app/owner/owner.html'));
+  });
+
+  app.get('/owner/login', isLoggedIn, (req, res) => {
+    res.send(req.user.login);
   });
 
   app.get('/login', (req, res, next) => {
@@ -62,15 +66,10 @@ const ownerRoutes = (app, passport) =>{
     console.log('get owner/restaurants of', req.user.login);
     models.getRestaurants(req.user.login)
       .then(result => {
-        console.log(result.rows);
         res.send(result.rows);
       });
-
-    // res.send([
-    //   {name:'Restaurant1', address:'123 S. Market st.', ZIP: 12345, type: 'American', imageURL:'', restaurantURL:'', YelpID:''},
-    //   {name:'Restaurant2', address:'456 N. Mission ave.', ZIP: 67890, type: 'Indian', imageURL:'', restaurantURL:'', YelpID:''}
-    // ]);
   });
+
   app.post('/owner/restaurants', isLoggedIn, (req, res, next) => {
     console.log('post owner restaurants', req.body);
     res.send('ok');
@@ -78,7 +77,7 @@ const ownerRoutes = (app, passport) =>{
 
   app.get('/owner/deals', isLoggedIn, (req, res, next) => {
     // get owner restaurants from server
-    console.log('get owner/deals of', req.query)
+    console.log('get owner/deals of', req.query.restaurant)
     res.send([
       {name:'Deal1', price:1.11, description:'hello', imageURL:'', startTime:undefined, startDate:undefined, endDate:undefined, endTime:undefined},
       {name:'Deal2', price:0.11, description:'hi', imageURL:'', startTime:undefined, startDate:undefined, endDate:undefined, endTime:undefined},
@@ -93,7 +92,7 @@ const ownerRoutes = (app, passport) =>{
   });
   app.get('/owner/cheapitems', isLoggedIn, (req, res, next) => {
     // get owner restaurants from server
-    console.log('get owner/cheapitems of', req.query)
+    console.log('get owner/cheapitems of', req.query.restaurant)
     res.send([
       {name:'item1', price:99.99, description:'expensive', imageURL:''},
       {name:'item2', price:0.01, description:'cheap', imageURL:''},
