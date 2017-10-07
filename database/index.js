@@ -348,4 +348,5 @@ module.exports = {
   saveRestaurant: saveRestaurant,
   getCheapItemsByRestaurant: getCheapItemsByRestaurant,
   getDealsByRestaurant: getDealsByRestaurant
+  getRestaurants,
 };

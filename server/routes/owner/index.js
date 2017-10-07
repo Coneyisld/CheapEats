@@ -1,4 +1,5 @@
 const path = require('path');
+const models = require('../../../database');
 
 const ownerRoutes = (app, passport) =>{
 
@@ -11,16 +12,14 @@ const ownerRoutes = (app, passport) =>{
     }
   };
 
-  app.get('/owner', isLoggedIn,  (req, res, next) => { // TODO: putback isLoggedIn
-    // isLoggedIn,
-    // should display owner page
+  app.get('/owner', isLoggedIn,  (req, res, next) => {
+    // display owner page
     console.log('GET owner');
-
     res.sendFile(path.join(__dirname, '../../../client/app/owner/owner.html'));
   });
 
   app.get('/login', (req, res, next) => {
-    // should display owenr login page
+    // display ownr login page
     console.log('GET login');
     res.sendFile(path.join(__dirname, '../../../client/public/login.html'));
   });
@@ -60,11 +59,17 @@ const ownerRoutes = (app, passport) =>{
 
   app.get('/owner/restaurants', isLoggedIn, (req, res, next) => {
     // get owner restaurants from server
-    console.log('get owner/restaurants of', req.query);
-    res.send([
-      {name:'Restaurant1', address:'123 S. Market st.', ZIP: 12345, type: 'American', imageURL:'', restaurantURL:'', YelpID:''},
-      {name:'Restaurant2', address:'456 N. Mission ave.', ZIP: 67890, type: 'Indian', imageURL:'', restaurantURL:'', YelpID:''}
-    ]);
+    console.log('get owner/restaurants of', req.user.login);
+    models.getRestaurants(req.user.login)
+      .then(result => {
+        console.log(result.rows);
+        res.send(result.rows);
+      });
+
+    // res.send([
+    //   {name:'Restaurant1', address:'123 S. Market st.', ZIP: 12345, type: 'American', imageURL:'', restaurantURL:'', YelpID:''},
+    //   {name:'Restaurant2', address:'456 N. Mission ave.', ZIP: 67890, type: 'Indian', imageURL:'', restaurantURL:'', YelpID:''}
+    // ]);
   });
   app.post('/owner/restaurants', isLoggedIn, (req, res, next) => {
     console.log('post owner restaurants', req.body);
