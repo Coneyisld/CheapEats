@@ -246,6 +246,30 @@ const saveDeals = (deal) => {
 }
 
 /* ===========================================================
+The updateDeals function takes in:
+dealName (string): name of the deal that is going to be updated
+deal (object): has the following properties {dealName, yelp_ID, description, price, imageURL, startTime, startDate, endTime, endDate}
+
+Output: A promise object resolving to the added row information.
+=========================================================== */
+const updateDeals = (dealName, deal) => {
+  var query = `UPDATE Deals SET price=${deal.price}, dealName="${deal.dealName}",
+    description="${deal.description}", imageURL="${deal.imageURL}", startTime=${deal.startTime}, 
+    startDate=${deal.startDate}, endTime=${deal.endTime}, endDate=${deal.endDate} 
+    WHERE dealName="${dealName}"`;
+  
+  return new Promise(function(resolve, reject) {
+    pool.query(query, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
+/* ===========================================================
 The saveCheapItems function takes in:
 cheapItem (object): has the following properties {yelp_ID, price, menuItem, imageURL, description}
 
@@ -256,6 +280,28 @@ const saveCheapItems = (cheapItem) => {
   var values = [cheapItem.yelp_ID, cheapItem.price, cheapItem.menuItem, cheapItem.imageURL, cheapItem.description];
   return new Promise(function(resolve, reject) {
     pool.query(query, values, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    })
+  })
+}
+
+/* ===========================================================
+The updateCheapItems function takes in:
+cheapItem (object): has the following properties {yelp_ID, price, menuItem, imageURL, description}
+
+Output: A promise object resolving to the added row information.
+=========================================================== */
+const updateCheapItems = (menuItem, cheapItem) => {
+  var query = `UPDATE CheapItems SET price=${cheapItem.price}, menuItem=${cheapItem.menuItem},
+    description="${cheapItem.description}", imageURL="${cheapItem.imageURL}" 
+    WHERE menuItem="${menuItem}"`;
+
+  return new Promise(function(resolve, reject) {
+    pool.query(query, function(err, result) {
       if (err) {
         reject(err);
       } else {
