@@ -6,16 +6,21 @@ import Modal from 'react-modal';
 class DealsList extends React.Component {
   constructor(props) {
     super(props);
+    let now = new Date();
+    if(now.getDate() < 10){
+      var d =  '0' + now.getDate().toString();
+    }
+    this.today = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + d;
     this.state = {
       modifyModal: false,
       mName: '',
       mPrice: 0,
       mDescription: '',
       mImageURL: '',
-      mStartDate: undefined,
-      mStartTime: undefined,
-      mEndDate: undefined,
-      mEndTime: undefined,
+      mStartDate: this.today,
+      mStartTime: '00:00',
+      mEndDate: this.today,
+      mEndTime: '00:00',
     };
   }
 
@@ -27,10 +32,10 @@ class DealsList extends React.Component {
       mPrice: 0,
       mDescription: '',
       mImageURL: '',
-      mStartDate: undefined,
-      mStartTime: undefined,
-      mEndDate: undefined,
-      mEndTime: undefined,      
+      mStartDate: this.today, 
+      mStartTime: '00:00',
+      mEndDate: this.today,
+      mEndTime: '00:00',      
     });
   }
 
@@ -43,14 +48,14 @@ class DealsList extends React.Component {
   modifyDeal(deal) {
     this.setState({
       modifyModal: true,
-      mName: deal.name,
+      mName: deal.dealname,
       mPrice: deal.price,
       mDescription: deal.description,
-      mImageURL: deal.imageURL,
-      mStartDate: deal.startDate,
-      mStartTime: deal.startTime,
-      mEndDate: deal.endDate,
-      mEndTime: deal.endTime,
+      mImageURL: deal.imageurl,
+      mStartDate: deal.startdate,
+      mStartTime: deal.starttime,
+      mEndDate: deal.enddate,
+      mEndTime: deal.endtime,
     });
   }
 
@@ -79,12 +84,14 @@ class DealsList extends React.Component {
   }
 
   updateStartDate(event) {
+    console.log(event.target.value);
     this.setState({
       mStartDate: event.target.value,
     });
   }
 
   updateStartTime(event) {
+    console.log(event.target.value);
     this.setState({
       mStartTime: event.target.value,
     });
@@ -107,15 +114,18 @@ class DealsList extends React.Component {
       modifyModal: false,
     })
     axios.post('/owner/deals', {
-      name: this.state.mName,
+      dealName: this.state.mName,
       price: this.state.mPrice,
       description: this.state.mDescription,
       imageURL: this.state.mImageURL,
       startDate: this.state.mStartDate,
       startTime: this.state.mStartTime,
       endDate: this.state.mEndDate,
-      endTime: this.state.mEndTime
-    });
+      endTime: this.state.mEndTime,
+      restaurant: this.props.selected,
+    }).then(res => {
+      this.props.setDeals(res.data);
+    })
   }
 
   render() {
@@ -124,7 +134,7 @@ class DealsList extends React.Component {
         <h3>DealsList</h3>
         <div className="scroll">
           {this.props.deals.map(deal => 
-            <Deal deal={deal} key={deal.name} 
+            <Deal deal={deal} key={deal.dealname} 
               modifyDeal={this.modifyDeal.bind(this)}/>)}
         </div>
         <button type="button" onClick={this.addDeal.bind(this)}>add Deal</button>

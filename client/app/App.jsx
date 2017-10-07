@@ -15,38 +15,39 @@ class App extends React.Component {
     }
   }
 
-  // updateQuery(cuisine, zipCode) {
-  //   console.log("updateQuery RANnnn!!!")
-  //   console.log(cuisine)
-  //   $.ajax({
-  //     type: 'POST',
-  //     url: '/cheapitems',
-  //     contentType: 'application/json',
-  //     data: JSON.stringify({cuisine,zipCode}),
-  //     success: (data) => {
-  //       console.log('data received')
-  //     },
-  //     error: (err) => {
-  //       console.log('ERROR', err)
-  //     }
-  //   }).then({})
-  // }
+  updateQuery(cuisine, zipCode) {
+    console.log("updateQuery RANnnn!!!")
+    console.log(cuisine)
+    $.ajax({
+      type: 'POST',
+      url: '/cheapitems',
+      contentType: 'application/json',
+      data: JSON.stringify({cuisine,zipCode}),
+      success: (data) => {
+        console.log('data received')
+      },
+      error: (err) => {
+        console.log('ERROR', err)
+      }
+    }).then({})
+  }
 
 
-  // componentDidMount(cuisine, zipCode) {
-  //   console.log("updateQuery RANnnn!!!")
-  //   console.log(cuisine)
-  //   $.ajax({
-  //     type: 'GET',
-  //     url: '/cheapitems',
-  //     contentType: 'application/json',
-  //     success: () => {
-  //       console.log('data received')
-  //     },
-  //     error: (err) => {
-  //       console.log('ERROR', err)
-  //     }
-  //   }).then({})
+  componentDidMount(cuisine, zipCode) {
+    console.log("updateQuery RANnnn!!!")
+    console.log(cuisine)
+    $.ajax({
+      type: 'GET',
+      url: '/cheapitems',
+      contentType: 'application/json',
+      success: () => {
+        console.log('data received')
+      },
+      error: (err) => {
+        console.log('ERROR', err)
+      }
+    })
+  }
 
 
 

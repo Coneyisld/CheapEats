@@ -12,10 +12,10 @@ class CheapItem extends React.Component {
   render() {
     return (
       <div className="cheapitem card" onClick={this.update.bind(this)}>
-        <h3>{this.props.item.name}</h3>
+        <h3>{this.props.item.menuitem}</h3>
         <p>{this.props.item.price}</p>
         <p>{this.props.item.description}</p>
-        <p>{this.props.item.imageURL}</p>
+        <p>{this.props.item.imageurl}</p>
       </div>
     );
   }

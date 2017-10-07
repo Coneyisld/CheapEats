@@ -49,28 +49,27 @@ class RestaurantList extends React.Component {
   }
 
   selectRestaurant (restaurant) {
-    console.log(restaurant.name);
     if(this.props.selected === restaurant.name) {
       this.setState({
         modifyModal: true,
         mName: restaurant.name,
         mAddress: restaurant.address,
-        mZIP: restaurant.ZIP,
+        mZIP: restaurant.zip,
         mType: restaurant.type,
-        mImageURL: restaurant.imageURL,
-        mRestaurantURL: restaurant.restaurantURL,
-        mYelpID: restaurant.YelpID,
+        mImageURL: restaurant.imageurl,
+        mRestaurantURL: restaurant.restauranturl,
+        mYelpID: restaurant.yelpid,
       })
     } else {
       this.props.select(restaurant.name);
       this.setState({
         mName: restaurant.name,
         mAddress: restaurant.address,
-        mZIP: restaurant.ZIP,
+        mZIP: restaurant.zip,
         mType: restaurant.type,
-        mImageURL: restaurant.imageURL,
-        mRestaurantURL: restaurant.restaurantURL,
-        mYelpID: restaurant.YelpID,
+        mImageURL: restaurant.imageurl,
+        mRestaurantURL: restaurant.restauranturl,
+        mYelpID: restaurant.yelpid,
       })
     }
   }
@@ -123,6 +122,12 @@ class RestaurantList extends React.Component {
       imageURL: this.state.mImageURL,
       restaurantURL: this.state.mRestaurantURL,
       YelpID: this.state.mYelpID,
+    }).then(result => {
+      this.setState({
+        restaurants: result.data,
+      });
+    }).catch(err => {
+      console.log('err in saving restaurant\n', err);
     });
   }
 

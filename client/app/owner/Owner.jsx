@@ -8,8 +8,8 @@ class Owner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      owner: null, // ownerId
-      selected: null,
+      owner: '', // ownerId
+      selected: '',
       cheapItems: [],
       deals: [],
     }
@@ -34,8 +34,6 @@ class Owner extends React.Component {
         {params: {restaurant: name}}),
       axios.get('/owner/cheapitems', 
         {params: {restaurant: name}}),
-      // axios.get(`/owner/deals?restaurant=${this.state.selected}`),
-      // axios.get(`/owner/cheapitems?restaurant=${this.state.selected}`),
     ]).then(data => {
       this.setState({
           deals: data[0].data,
@@ -51,6 +49,18 @@ class Owner extends React.Component {
       });
   }
 
+  setDeals(deals) {
+    this.setState({
+      deals: deals,
+    });
+  }
+
+  setItems(items) {
+    this.setState({
+      cheapItems: items,
+    });
+  }
+
   render() {
     return (
       <div>
@@ -61,9 +71,13 @@ class Owner extends React.Component {
           select={this.selectRestaurant.bind(this)}
           selected={this.state.selected} />
         <CheapItemList 
-          items={this.state.cheapItems}/>
+          items={this.state.cheapItems}
+          selected={this.state.selected} 
+          setItems={this.setItems.bind(this)} />
         <DealsList 
-          deals={this.state.deals}/>
+          deals={this.state.deals}
+          selected={this.state.selected} 
+          setDeals={this.setDeals.bind(this)} />
 
       </div>
     );

@@ -308,6 +308,26 @@ const getRestaurants = (login) => {
   });
 }
 
+/* ===========================================================
+The getYelpIdByRestaurantName function takes in:
+name (string): the restaurant name
+
+Output: A promse that resolves to an array of all matching restaurants. (Currently not limiting to 25.)
+=========================================================== */
+const getYelpIdByRestaurantName = (name) => {
+  var query = "SELECT id FROM YelpData WHERE name = '" + name + "'";
+ 
+  return new Promise(function(resolve, reject) {
+    pool.query(query, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
 const getCheapItemsByRestaurant = (restaurantName) => {
   var query = "SELECT * FROM CheapItems WHERE yelp_ID IN (SELECT id FROM YelpData WHERE name = '" + restaurantName + "')";
 
@@ -347,6 +367,7 @@ module.exports = {
   saveCheapItems: saveCheapItems,
   saveRestaurant: saveRestaurant,
   getCheapItemsByRestaurant: getCheapItemsByRestaurant,
-  getDealsByRestaurant: getDealsByRestaurant
+  getDealsByRestaurant: getDealsByRestaurant,
   getRestaurants,
+  getYelpIdByRestaurantName,
 };

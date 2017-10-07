@@ -34,10 +34,10 @@ class CheapItemList extends React.Component {
 
   modifyItem (item) {
     this.setState({
-      mName: item.name,
+      mName: item.menuitem,
       mPrice: item.price,
       mDescription: item.description,
-      mImageURL: item.imageURL,
+      mImageURL: item.imageurl,
       modifyModal: true,
     });
   }
@@ -69,13 +69,16 @@ class CheapItemList extends React.Component {
   updateItem() {
     this.setState({
       modifyModal:false,
-    })
+    });
     axios.post('/owner/cheapItems', {
-      name:this.state.mName,
+      menuItem:this.state.mName,
       price:this.state.mPrice,
       description:this.state.mDescription,
       imageURL:this.state.mImageURL,
-    })
+      restaurant:this.props.selected,
+    }).then(res => {
+      this.props.setItems(res.data);
+    });
   }
 
   render() {
@@ -84,7 +87,7 @@ class CheapItemList extends React.Component {
         <h3>CheapItemList</h3>
         <div className="scroll">
           {this.props.items.map(item => 
-            <CheapItem item={item} key={item.name} 
+            <CheapItem item={item} key={item.menuitem} 
               modifyItem={this.modifyItem.bind(this)}/>)}
         </div>
         <button type="button" onClick={this.addItem.bind(this)}>add Item</button>
