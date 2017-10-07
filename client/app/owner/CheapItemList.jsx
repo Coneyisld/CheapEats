@@ -70,15 +70,19 @@ class CheapItemList extends React.Component {
     this.setState({
       modifyModal:false,
     });
-    axios.post('/owner/cheapItems', {
-      menuItem:this.state.mName,
-      price:this.state.mPrice,
-      description:this.state.mDescription,
-      imageURL:this.state.mImageURL,
-      restaurant:this.props.selected,
-    }).then(res => {
-      this.props.setItems(res.data);
-    });
+    if(this.props.selected !== '') {
+      axios.post('/owner/cheapItems', {
+        menuItem:this.state.mName,
+        price:this.state.mPrice,
+        description:this.state.mDescription,
+        imageURL:this.state.mImageURL,
+        restaurant:this.props.selected,
+      }).then(res => {
+        this.props.setItems(res.data);
+      }).catch(err => {
+        console.log('error in post item\n', err);
+      });
+    }
   }
 
   render() {

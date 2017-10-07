@@ -112,20 +112,24 @@ class DealsList extends React.Component {
   updateDeal() {
     this.setState({
       modifyModal: false,
-    })
-    axios.post('/owner/deals', {
-      dealName: this.state.mName,
-      price: this.state.mPrice,
-      description: this.state.mDescription,
-      imageURL: this.state.mImageURL,
-      startDate: this.state.mStartDate,
-      startTime: this.state.mStartTime,
-      endDate: this.state.mEndDate,
-      endTime: this.state.mEndTime,
-      restaurant: this.props.selected,
-    }).then(res => {
-      this.props.setDeals(res.data);
-    })
+    });
+    if(this.props.selected !== '') {
+      axios.post('/owner/deals', {
+        dealName: this.state.mName,
+        price: this.state.mPrice,
+        description: this.state.mDescription,
+        imageURL: this.state.mImageURL,
+        startDate: this.state.mStartDate,
+        startTime: this.state.mStartTime,
+        endDate: this.state.mEndDate,
+        endTime: this.state.mEndTime,
+        restaurant: this.props.selected,
+      }).then(res => {
+        this.props.setDeals(res.data);
+      }).catch(err => {
+        console.log('error in post deals\n', err);
+      })
+    }
   }
 
   render() {
