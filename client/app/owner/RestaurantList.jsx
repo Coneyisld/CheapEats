@@ -17,11 +17,12 @@ class RestaurantList extends React.Component {
       mImageURL: '',
       mRestaurantURL: '',
       mYelpID: '',
+      prevName: '',
     }
   }
 
   componentDidMount() {
-    axios.get('/owner/restaurants', {params: {owner: this.state.owner}})
+    axios.get('/owner/restaurants')
       .then(res => {
         this.setState({
           restaurants: res.data,
@@ -45,32 +46,34 @@ class RestaurantList extends React.Component {
       mImageURL: '',
       mRestaurantURL: '',
       mYelpID: '',
+      prevName: '',
     })
   }
 
   selectRestaurant (restaurant) {
-    console.log(restaurant.name);
     if(this.props.selected === restaurant.name) {
       this.setState({
         modifyModal: true,
         mName: restaurant.name,
         mAddress: restaurant.address,
-        mZIP: restaurant.ZIP,
+        mZIP: restaurant.zip,
         mType: restaurant.type,
-        mImageURL: restaurant.imageURL,
-        mRestaurantURL: restaurant.restaurantURL,
-        mYelpID: restaurant.YelpID,
+        mImageURL: restaurant.imageurl,
+        mRestaurantURL: restaurant.restauranturl,
+        mYelpID: restaurant.yelpid,
+        prevName: restaurant.name,
       })
     } else {
       this.props.select(restaurant.name);
       this.setState({
         mName: restaurant.name,
         mAddress: restaurant.address,
-        mZIP: restaurant.ZIP,
+        mZIP: restaurant.zip,
         mType: restaurant.type,
-        mImageURL: restaurant.imageURL,
-        mRestaurantURL: restaurant.restaurantURL,
-        mYelpID: restaurant.YelpID,
+        mImageURL: restaurant.imageurl,
+        mRestaurantURL: restaurant.restauranturl,
+        mYelpID: restaurant.yelpid,
+        prevName: restaurant.name,
       })
     }
   }
@@ -115,15 +118,40 @@ class RestaurantList extends React.Component {
     this.setState({
       modifyModal: false
     });
-    axios.post('/owner/restaurants', {
-      name: this.state.mName,
-      address: this.state.mAddress,
-      ZIP: this.state.mZIP,
-      type: this.state.mType,
-      imageURL: this.state.mImageURL,
-      restaurantURL: this.state.mRestaurantURL,
-      YelpID: this.state.mYelpID,
-    });
+    if(this.state.prevName === ''){ // new
+      axios.post('/owner/restaurants', {
+        name: this.state.mName,
+        address: this.state.mAddress,
+        ZIP: this.state.mZIP,
+        type: this.state.mType,
+        imageURL: this.state.mImageURL,
+        restaurantURL: this.state.mRestaurantURL,
+        YelpID: this.state.mYelpID,
+      }).then(result => {
+        this.setState({
+          restaurants: result.data,
+        });
+      }).catch(err => {
+        console.log('err in saving restaurant\n', err);
+      });
+    } else { // update
+      axios.put('/owner/restaurants', {
+        name: this.state.mName,
+        address: this.state.mAddress,
+        ZIP: this.state.mZIP,
+        type: this.state.mType,
+        imageURL: this.state.mImageURL,
+        restaurantURL: this.state.mRestaurantURL,
+        YelpID: this.state.mYelpID,
+        prevName: this.state.prevName,
+      }).then(result => {
+        this.setState({
+          restaurants: result.data,
+        });
+      }).catch(err => {
+        console.log('err in saving restaurant\n', err);
+      });
+    }
   }
 
   render() {

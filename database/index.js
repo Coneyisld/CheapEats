@@ -246,6 +246,30 @@ const saveDeals = (deal) => {
 }
 
 /* ===========================================================
+The updateDeals function takes in:
+dealName (string): name of the deal that is going to be updated
+deal (object): has the following properties {dealName, yelp_ID, description, price, imageURL, startTime, startDate, endTime, endDate}
+
+Output: A promise object resolving to the added row information.
+=========================================================== */
+const updateDeals = (dealName, deal) => {
+  var query = `UPDATE Deals SET price = ($1), dealName = ($2),
+    description = ($3), imageURL = ($4), startTime = ($5), 
+    startDate = ($6), endTime = ($7), endDate = ($8)
+    WHERE dealName = ($9)`;
+  var values = [deal.price, deal.dealName, deal.description, deal.imageURL, deal.startTime, deal.startDate, deal.endTime, deal.endDate, deal.dealName];
+  return new Promise(function(resolve, reject) {
+    pool.query(query, values, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
+/* ===========================================================
 The saveCheapItems function takes in:
 cheapItem (object): has the following properties {yelp_ID, price, menuItem, imageURL, description}
 
@@ -254,6 +278,28 @@ Output: A promise object resolving to the added row information.
 const saveCheapItems = (cheapItem) => {
   var query = "INSERT INTO CheapItems (yelp_ID, price, menuItem, imageURL, description) VALUES ($1, $2, $3, $4, $5)";
   var values = [cheapItem.yelp_ID, cheapItem.price, cheapItem.menuItem, cheapItem.imageURL, cheapItem.description];
+  return new Promise(function(resolve, reject) {
+    pool.query(query, values, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    })
+  })
+}
+
+/* ===========================================================
+The updateCheapItems function takes in:
+cheapItem (object): has the following properties {yelp_ID, price, menuItem, imageURL, description}
+
+Output: A promise object resolving to the added row information.
+=========================================================== */
+const updateCheapItems = (menuItem, cheapItem) => {
+  var query = `UPDATE CheapItems SET price = ($1), menuItem = ($2),
+    description = ($3), imageURL = ($4)
+    WHERE menuItem = ($5)`;
+  var values = [cheapItem.price, cheapItem.menuItem, cheapItem.description, cheapItem.imageURL, menuItem];
   return new Promise(function(resolve, reject) {
     pool.query(query, values, function(err, result) {
       if (err) {
@@ -288,6 +334,31 @@ const saveRestaurant = (yelpRow) => {
 }
 
 /* ===========================================================
+The updateRestaurant function takes in:
+name (string): name of the restaurant to be updated.
+yelpRow (object): has the following properties {yelp_api_ID, address, ZIP, type, imageURL, restaurantURL, name, owner_ID}
+
+Output: A promise object resolving to the added row information.
+=========================================================== */
+const updateRestaurant = (name, yelpRow) => {
+
+    var query = `UPDATE YelpData SET yelp_api_ID = ($1), address = ($2),
+    ZIP = ($3), type = ($4), imageURL = ($5), restaurantURL = ($6), owner_ID = ($7), name = ($8)
+    WHERE name = ($9)`;
+  //need to figure out how to get owner_ID here
+  var values = [yelpRow.yelp_api_ID, yelpRow.address, yelpRow.ZIP, yelpRow.type, yelpRow.imageURL, yelpRow.restaurantURL, yelpRow.owner_ID, yelpRow.name, name];
+  return new Promise(function(resolve, reject) {
+    pool.query(query, values, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    })
+  })
+}
+
+/* ===========================================================
 The getRestaurants function takes in:
 login (string): the username for that owner
 
@@ -296,6 +367,26 @@ Output: A promse that resolves to an array of all matching restaurants. (Current
 const getRestaurants = (login) => {
   var query;
   query = "SELECT * FROM YelpData WHERE owner_ID IN (SELECT id FROM owners WHERE login = '" + login + "')";
+ 
+  return new Promise(function(resolve, reject) {
+    pool.query(query, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
+/* ===========================================================
+The getYelpIdByRestaurantName function takes in:
+name (string): the restaurant name
+
+Output: A promse that resolves to an array of all matching restaurants. (Currently not limiting to 25.)
+=========================================================== */
+const getYelpIdByRestaurantName = (name) => {
+  var query = "SELECT id FROM YelpData WHERE name = '" + name + "'";
  
   return new Promise(function(resolve, reject) {
     pool.query(query, function(err, result) {
@@ -347,5 +438,10 @@ module.exports = {
   saveCheapItems: saveCheapItems,
   saveRestaurant: saveRestaurant,
   getCheapItemsByRestaurant: getCheapItemsByRestaurant,
-  getDealsByRestaurant: getDealsByRestaurant
+  getDealsByRestaurant: getDealsByRestaurant,
+  getRestaurants,
+  getYelpIdByRestaurantName,
+  updateCheapItems,
+  updateDeals,
+  updateRestaurant,
 };

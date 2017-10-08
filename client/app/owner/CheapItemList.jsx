@@ -12,6 +12,7 @@ class CheapItemList extends React.Component {
       mPrice: 0,
       mDescription: '',
       mImageURL: '',
+      prevName: '',
     }
   }
 
@@ -23,6 +24,7 @@ class CheapItemList extends React.Component {
       mPrice: 0,
       mDescription: '',
       mImageURL: '',
+      prevName: '',
     });
   }
 
@@ -34,11 +36,12 @@ class CheapItemList extends React.Component {
 
   modifyItem (item) {
     this.setState({
-      mName: item.name,
+      mName: item.menuitem,
       mPrice: item.price,
       mDescription: item.description,
-      mImageURL: item.imageURL,
+      mImageURL: item.imageurl,
       modifyModal: true,
+      prevName: item.menuitem,
     });
   }
 
@@ -69,13 +72,35 @@ class CheapItemList extends React.Component {
   updateItem() {
     this.setState({
       modifyModal:false,
-    })
-    axios.post('/owner/cheapItems', {
-      name:this.state.mName,
-      price:this.state.mPrice,
-      description:this.state.mDescription,
-      imageURL:this.state.mImageURL,
-    })
+    });
+    if(this.props.selected !== '') {
+      if(this.state.prevName === '') { // new
+        axios.post('/owner/cheapItems', {
+          menuItem:this.state.mName,
+          price:this.state.mPrice,
+          description:this.state.mDescription,
+          imageURL:this.state.mImageURL,
+          restaurant:this.props.selected,
+        }).then(res => {
+          this.props.setItems(res.data);
+        }).catch(err => {
+          console.log('error in post item\n', err);
+        });
+      } else { // update
+        axios.put('/owner/cheapItems', {
+          menuItem:this.state.mName,
+          price:this.state.mPrice,
+          description:this.state.mDescription,
+          imageURL:this.state.mImageURL,
+          restaurant:this.props.selected,
+          prevName: this.state.prevName,
+        }).then(res => {
+          this.props.setItems(res.data);
+        }).catch(err => {
+          console.log('error in put item\n', err);
+        });
+      }
+    }
   }
 
   render() {
@@ -84,7 +109,7 @@ class CheapItemList extends React.Component {
         <h3>CheapItemList</h3>
         <div className="scroll">
           {this.props.items.map(item => 
-            <CheapItem item={item} key={item.name} 
+            <CheapItem item={item} key={item.menuitem} 
               modifyItem={this.modifyItem.bind(this)}/>)}
         </div>
         <button type="button" onClick={this.addItem.bind(this)}>add Item</button>

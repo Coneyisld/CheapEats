@@ -12,14 +12,14 @@ class Deal extends React.Component {
   render() {
     return (
       <div className="deal card" onClick={this.update.bind(this)}>
-        <h3>{this.props.deal.name}</h3>
+        <h3>{this.props.deal.dealname}</h3>
         <p>{this.props.deal.price}</p>
         <p>{this.props.deal.description}</p>
-        <p>{this.props.deal.imageURL}</p>
-        <p>{this.props.deal.startDate}</p>
-        <p>{this.props.deal.startTime}</p>
-        <p>{this.props.deal.endDate}</p>
-        <p>{this.props.deal.endTime}</p>
+        <p>{this.props.deal.imageurl}</p>
+        <p>{this.props.deal.startdate}</p>
+        <p>{this.props.deal.starttime}</p>
+        <p>{this.props.deal.enddate}</p>
+        <p>{this.props.deal.endtime}</p>
       </div>
     );
   }
