@@ -27,9 +27,9 @@ var config = {};
 if (process.env.DATABASE_URL) {
   config.connectionString = process.env.DATABASE_URL;
 } else {
-  config.user= '',
-  config.password= '',
-  config.database= 'cheapeats',
+  config.user= '';
+  config.password= '';
+  config.database= 'cheapeats';
   
 }
 //does a max number of clients need to be added to the config?
