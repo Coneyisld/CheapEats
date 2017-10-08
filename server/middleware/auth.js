@@ -13,6 +13,12 @@ const validPassword = (password, hash) => {
   return bcrypt.compare(password, hash);
 }
 
+const showHash = password => {
+  bcrypt.hash(password, saltRounds)
+    .then(hash => {
+      console.log(hash);
+    });
+}
 
 const LocalStrategy = require('passport-local').Strategy;
 const models = require('../../database');
