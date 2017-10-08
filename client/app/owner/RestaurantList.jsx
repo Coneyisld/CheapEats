@@ -17,6 +17,7 @@ class RestaurantList extends React.Component {
       mImageURL: '',
       mRestaurantURL: '',
       mYelpID: '',
+      prevName: '',
     }
   }
 
@@ -45,6 +46,7 @@ class RestaurantList extends React.Component {
       mImageURL: '',
       mRestaurantURL: '',
       mYelpID: '',
+      prevName: '',
     })
   }
 
@@ -59,6 +61,7 @@ class RestaurantList extends React.Component {
         mImageURL: restaurant.imageurl,
         mRestaurantURL: restaurant.restauranturl,
         mYelpID: restaurant.yelpid,
+        prevName: restaurant.name,
       })
     } else {
       this.props.select(restaurant.name);
@@ -70,6 +73,7 @@ class RestaurantList extends React.Component {
         mImageURL: restaurant.imageurl,
         mRestaurantURL: restaurant.restauranturl,
         mYelpID: restaurant.yelpid,
+        prevName: restaurant.name,
       })
     }
   }
@@ -114,21 +118,40 @@ class RestaurantList extends React.Component {
     this.setState({
       modifyModal: false
     });
-    axios.post('/owner/restaurants', {
-      name: this.state.mName,
-      address: this.state.mAddress,
-      ZIP: this.state.mZIP,
-      type: this.state.mType,
-      imageURL: this.state.mImageURL,
-      restaurantURL: this.state.mRestaurantURL,
-      YelpID: this.state.mYelpID,
-    }).then(result => {
-      this.setState({
-        restaurants: result.data,
+    if(this.state.prevName === ''){ // new
+      axios.post('/owner/restaurants', {
+        name: this.state.mName,
+        address: this.state.mAddress,
+        ZIP: this.state.mZIP,
+        type: this.state.mType,
+        imageURL: this.state.mImageURL,
+        restaurantURL: this.state.mRestaurantURL,
+        YelpID: this.state.mYelpID,
+      }).then(result => {
+        this.setState({
+          restaurants: result.data,
+        });
+      }).catch(err => {
+        console.log('err in saving restaurant\n', err);
       });
-    }).catch(err => {
-      console.log('err in saving restaurant\n', err);
-    });
+    } else { // update
+      axios.put('/owner/restaurants', {
+        name: this.state.mName,
+        address: this.state.mAddress,
+        ZIP: this.state.mZIP,
+        type: this.state.mType,
+        imageURL: this.state.mImageURL,
+        restaurantURL: this.state.mRestaurantURL,
+        YelpID: this.state.mYelpID,
+        prevName: this.state.prevName,
+      }).then(result => {
+        this.setState({
+          restaurants: result.data,
+        });
+      }).catch(err => {
+        console.log('err in saving restaurant\n', err);
+      });
+    }
   }
 
   render() {

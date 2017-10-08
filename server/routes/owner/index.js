@@ -73,7 +73,6 @@ const ownerRoutes = (app, passport) =>{
 
   app.post('/owner/restaurants', isLoggedIn, (req, res, next) => {
     console.log('post owner restaurants', req.body);
-
     models.getOwnerByLogin(req.user.login)
       .then(result => {
         return models.saveRestaurant({
@@ -92,8 +91,30 @@ const ownerRoutes = (app, passport) =>{
         console.log('err in post restaurant\n', err);
         res.status(401).send();
       });
-
   });
+
+  app.put('/owner/restaurants', isLoggedIn, (req, res, next) => {
+    console.log('put owner restaurants', req.body);
+    models.getOwnerByLogin(req.user.login)
+      .then(result => {
+        return models.updateRestaurant(req.body.prevName, {
+          'yelp_api_ID': req.body.YelpID,
+          'address': req.body.address,
+          'ZIP': req.body.ZIP,
+          'type': req.body.type,
+          'imageURL': req.body.imageURL,
+          'restaurantURL': req.body.restaurantURL,
+          'name': req.body.name,
+          'owner_ID': result.rows[0].id,
+        });
+      }).then(result => {
+        res.redirect(303, '/owner/restaurants');
+      }).catch(err => {
+        console.log('err in put restaurant\n', err);
+        res.status(401).send();
+      });
+  });
+
 
   app.get('/owner/deals', isLoggedIn, (req, res, next) => {
     console.log('get owner/deals of', req.query.restaurant);

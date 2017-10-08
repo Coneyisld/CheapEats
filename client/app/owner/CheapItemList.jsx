@@ -87,7 +87,6 @@ class CheapItemList extends React.Component {
           console.log('error in post item\n', err);
         });
       } else { // update
-        console.log('update Item');
         axios.put('/owner/cheapItems', {
           menuItem:this.state.mName,
           price:this.state.mPrice,

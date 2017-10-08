@@ -334,6 +334,31 @@ const saveRestaurant = (yelpRow) => {
 }
 
 /* ===========================================================
+The updateRestaurant function takes in:
+name (string): name of the restaurant to be updated.
+yelpRow (object): has the following properties {yelp_api_ID, address, ZIP, type, imageURL, restaurantURL, name, owner_ID}
+
+Output: A promise object resolving to the added row information.
+=========================================================== */
+const updateRestaurant = (name, yelpRow) => {
+
+    var query = `UPDATE YelpData SET yelp_api_ID = ($1), address = ($2),
+    ZIP = ($3), type = ($4), imageURL = ($5), restaurantURL = ($6), owner_ID = ($7), name = ($8)
+    WHERE name = ($9)`;
+  //need to figure out how to get owner_ID here
+  var values = [yelpRow.yelp_api_ID, yelpRow.address, yelpRow.ZIP, yelpRow.type, yelpRow.imageURL, yelpRow.restaurantURL, yelpRow.owner_ID, yelpRow.name, name];
+  return new Promise(function(resolve, reject) {
+    pool.query(query, values, function(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    })
+  })
+}
+
+/* ===========================================================
 The getRestaurants function takes in:
 login (string): the username for that owner
 
@@ -418,4 +443,5 @@ module.exports = {
   getYelpIdByRestaurantName,
   updateCheapItems,
   updateDeals,
+  updateRestaurant,
 };
