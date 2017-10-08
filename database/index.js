@@ -253,13 +253,13 @@ deal (object): has the following properties {dealName, yelp_ID, description, pri
 Output: A promise object resolving to the added row information.
 =========================================================== */
 const updateDeals = (dealName, deal) => {
-  var query = `UPDATE Deals SET price=${deal.price}, dealName="${deal.dealName}",
-    description="${deal.description}", imageURL="${deal.imageURL}", startTime=${deal.startTime}, 
-    startDate=${deal.startDate}, endTime=${deal.endTime}, endDate=${deal.endDate} 
-    WHERE dealName="${dealName}"`;
-  
+  var query = `UPDATE Deals SET price = ($1), dealName = ($2),
+    description = ($3), imageURL = ($4), startTime = ($5), 
+    startDate = ($6), endTime = ($7), endDate = ($8)
+    WHERE dealName = ($9)`;
+  var values = [deal.price, deal.dealName, deal.description, deal.imageURL, deal.startTime, deal.startDate, deal.endTime, deal.endDate, deal.dealName];
   return new Promise(function(resolve, reject) {
-    pool.query(query, function(err, result) {
+    pool.query(query, values, function(err, result) {
       if (err) {
         reject(err);
       } else {
@@ -296,12 +296,12 @@ cheapItem (object): has the following properties {yelp_ID, price, menuItem, imag
 Output: A promise object resolving to the added row information.
 =========================================================== */
 const updateCheapItems = (menuItem, cheapItem) => {
-  var query = `UPDATE CheapItems SET price=${cheapItem.price}, menuItem=${cheapItem.menuItem},
-    description="${cheapItem.description}", imageURL="${cheapItem.imageURL}" 
-    WHERE menuItem="${menuItem}"`;
-
+  var query = `UPDATE CheapItems SET price = ($1), menuItem = ($2),
+    description = ($3), imageURL = ($4)
+    WHERE menuItem = ($5)`;
+  var values = [cheapItem.price, cheapItem.menuItem, cheapItem.description, cheapItem.imageURL, menuItem];
   return new Promise(function(resolve, reject) {
-    pool.query(query, function(err, result) {
+    pool.query(query, values, function(err, result) {
       if (err) {
         reject(err);
       } else {
@@ -416,4 +416,6 @@ module.exports = {
   getDealsByRestaurant: getDealsByRestaurant,
   getRestaurants,
   getYelpIdByRestaurantName,
+  updateCheapItems,
+  updateDeals,
 };

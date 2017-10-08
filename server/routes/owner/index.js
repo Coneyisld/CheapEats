@@ -106,9 +106,9 @@ const ownerRoutes = (app, passport) =>{
         res.status(401).send();
       });
   });
+
   app.post('/owner/deals', isLoggedIn, (req, res) => {
     console.log('post owner deals', req.body);
-
     models.getYelpIdByRestaurantName(req.body.restaurant)
       .then(result => {
         return models.saveDeals({
@@ -128,6 +128,29 @@ const ownerRoutes = (app, passport) =>{
         console.log('error in save deal\n', err);
       });
   });
+
+  app.put('/owner/deals', isLoggedIn, (req, res) => {
+    console.log('put owner deals', req.body);
+    models.getYelpIdByRestaurantName(req.body.restaurant)
+      .then(result => {
+        return models.updateDeals(req.body.prevName, {
+          'yelp_ID': result.rows[0].id,
+          'price': req.body.price,
+          'dealName': req.body.dealName,
+          'description': req.body.description,
+          'imageURL': req.body.imageURL,
+          'startTime': req.body.startTime,
+          'startDate': req.body.startDate,
+          'endTime': req.body.endTime,
+          'endDate': req.body.endDate,
+        });
+      }).then((result) => {
+        res.redirect(303, '/owner/deals?restaurant='+req.body.restaurant);
+      }).catch(err => {
+        console.log('error in update deal\n', err);
+      });
+  });
+
   app.get('/owner/cheapitems', isLoggedIn, (req, res, next) => {
     console.log('get owner/cheapitems of', req.query.restaurant)
     models.getCheapItemsByRestaurant(req.query.restaurant)
@@ -156,6 +179,24 @@ const ownerRoutes = (app, passport) =>{
       });
   });
 
+  app.put('/owner/cheapItems', isLoggedIn, (req, res) => {
+    console.log('put owner cheapitems', req.body);
+    models.getYelpIdByRestaurantName(req.body.restaurant)
+      .then(result => {
+        console.log('owner cheapItem update!!!!!')
+        return models.updateCheapItems(req.body.prevName, {
+          'yelp_ID': result.rows[0].id,
+          'price': req.body.price,
+          'menuItem': req.body.menuItem,
+          'imageURL': req.body.imageURL,
+          'description': req.body.description,
+        });
+      }).then(result => {
+        res.redirect(303, '/owner/cheapitems?restaurant='+req.body.restaurant);
+      }).catch(err => {
+        console.log('error in update cheapItems\n', err);
+      });
+  });
 
 }
 

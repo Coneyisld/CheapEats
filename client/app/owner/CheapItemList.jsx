@@ -12,6 +12,7 @@ class CheapItemList extends React.Component {
       mPrice: 0,
       mDescription: '',
       mImageURL: '',
+      prevName: '',
     }
   }
 
@@ -23,6 +24,7 @@ class CheapItemList extends React.Component {
       mPrice: 0,
       mDescription: '',
       mImageURL: '',
+      prevName: '',
     });
   }
 
@@ -39,6 +41,7 @@ class CheapItemList extends React.Component {
       mDescription: item.description,
       mImageURL: item.imageurl,
       modifyModal: true,
+      prevName: item.menuitem,
     });
   }
 
@@ -71,17 +74,33 @@ class CheapItemList extends React.Component {
       modifyModal:false,
     });
     if(this.props.selected !== '') {
-      axios.post('/owner/cheapItems', {
-        menuItem:this.state.mName,
-        price:this.state.mPrice,
-        description:this.state.mDescription,
-        imageURL:this.state.mImageURL,
-        restaurant:this.props.selected,
-      }).then(res => {
-        this.props.setItems(res.data);
-      }).catch(err => {
-        console.log('error in post item\n', err);
-      });
+      if(this.state.prevName === '') { // new
+        axios.post('/owner/cheapItems', {
+          menuItem:this.state.mName,
+          price:this.state.mPrice,
+          description:this.state.mDescription,
+          imageURL:this.state.mImageURL,
+          restaurant:this.props.selected,
+        }).then(res => {
+          this.props.setItems(res.data);
+        }).catch(err => {
+          console.log('error in post item\n', err);
+        });
+      } else { // update
+        console.log('update Item');
+        axios.put('/owner/cheapItems', {
+          menuItem:this.state.mName,
+          price:this.state.mPrice,
+          description:this.state.mDescription,
+          imageURL:this.state.mImageURL,
+          restaurant:this.props.selected,
+          prevName: this.state.prevName,
+        }).then(res => {
+          this.props.setItems(res.data);
+        }).catch(err => {
+          console.log('error in put item\n', err);
+        });
+      }
     }
   }
 

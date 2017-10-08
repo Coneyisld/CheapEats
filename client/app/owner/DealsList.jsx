@@ -21,6 +21,7 @@ class DealsList extends React.Component {
       mStartTime: '00:00',
       mEndDate: this.today,
       mEndTime: '00:00',
+      prevName: '',
     };
   }
 
@@ -35,7 +36,8 @@ class DealsList extends React.Component {
       mStartDate: this.today, 
       mStartTime: '00:00',
       mEndDate: this.today,
-      mEndTime: '00:00',      
+      mEndTime: '00:00',
+      prevName: '',
     });
   }
 
@@ -56,6 +58,7 @@ class DealsList extends React.Component {
       mStartTime: deal.starttime,
       mEndDate: deal.enddate,
       mEndTime: deal.endtime,
+      prevName: deal.dealname,
     });
   }
 
@@ -114,21 +117,40 @@ class DealsList extends React.Component {
       modifyModal: false,
     });
     if(this.props.selected !== '') {
-      axios.post('/owner/deals', {
-        dealName: this.state.mName,
-        price: this.state.mPrice,
-        description: this.state.mDescription,
-        imageURL: this.state.mImageURL,
-        startDate: this.state.mStartDate,
-        startTime: this.state.mStartTime,
-        endDate: this.state.mEndDate,
-        endTime: this.state.mEndTime,
-        restaurant: this.props.selected,
-      }).then(res => {
-        this.props.setDeals(res.data);
-      }).catch(err => {
-        console.log('error in post deals\n', err);
-      })
+      if(this.state.prevName === '') {
+        axios.post('/owner/deals', {
+          dealName: this.state.mName,
+          price: this.state.mPrice,
+          description: this.state.mDescription,
+          imageURL: this.state.mImageURL,
+          startDate: this.state.mStartDate,
+          startTime: this.state.mStartTime,
+          endDate: this.state.mEndDate,
+          endTime: this.state.mEndTime,
+          restaurant: this.props.selected,
+        }).then(res => {
+          this.props.setDeals(res.data);
+        }).catch(err => {
+          console.log('error in post deals\n', err);
+        });
+      } else {
+        axios.put('/owner/deals', {
+          dealName: this.state.mName,
+          price: this.state.mPrice,
+          description: this.state.mDescription,
+          imageURL: this.state.mImageURL,
+          startDate: this.state.mStartDate,
+          startTime: this.state.mStartTime,
+          endDate: this.state.mEndDate,
+          endTime: this.state.mEndTime,
+          restaurant: this.props.selected,
+          prevName: this.state.prevName,
+        }).then(res => {
+          this.props.setDeals(res.data);
+        }).catch(err => {
+          console.log('error in put deals\n', err);
+        });
+      }
     }
   }
 
