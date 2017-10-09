@@ -161,15 +161,15 @@ INSERT INTO Users (login, password, cheapitem_id) VALUES
 
 
 INSERT INTO YelpData(yelp_api_ID, address, ZIP, type, imageURL, restaurantURL, name)
-VALUES ('tú-lan-san-francisco-4', '8 6th St', 94103, 'Vietnamese', 'http://bit.ly/2ggP5Rz', 'http://tulan-vn-restaurant.com', 'Tu Lan');
+VALUES ('tú-lan-san-francisco-4', '8 6th St.\nSan Francisco, CA 94013', 94103, 'Vietnamese', 'http://bit.ly/2ggP5Rz', 'http://tulan-vn-restaurant.com', 'Tu Lan');
 INSERT INTO YelpData(yelp_api_ID, address, ZIP, type, imageURL, restaurantURL, name)
-VALUES ('the-flying-falafel-san-francisco-3', '1051 Market St', 94013, 'Vegan', 'http://bit.ly/2xZrTyG', 'http://flyingfalafel.com', 'The Flying Falafel');
+VALUES ('the-flying-falafel-san-francisco-3', '1051 Market St.\nSan Francisco, CA 94013', 94013, 'Vegan', 'http://bit.ly/2xZrTyG', 'http://flyingfalafel.com', 'The Flying Falafel');
 INSERT INTO YelpData(yelp_api_ID, address, ZIP, type, imageURL, restaurantURL, name)
-VALUES ('box-kitchen-san-francisco', '431 Natoma St.', 94103, 'Burgers', 'http://bit.ly/2ytyFA7', 'http://boxkitchensf.com', 'Box Kitchen');
+VALUES ('box-kitchen-san-francisco', '431 Natoma St.\nSan Francisco, CA 94013', 94103, 'Burgers', 'http://bit.ly/2ytyFA7', 'http://boxkitchensf.com', 'Box Kitchen');
 INSERT INTO YelpData(yelp_api_ID, address, ZIP, type, imageURL, restaurantURL, name)
-VALUES ('kaisen-sushi-san-francisco', '71 5th St', 94013, 'Japanese', 'http://bit.ly/2z1PKhB', 'https://www.yelp.com/biz/kaisen-sushi-san-francisco', 'Kaisen Sushi');
+VALUES ('kaisen-sushi-san-francisco', '71 5th St.\nSan Francisco, CA 94013', 94013, 'Japanese', 'http://bit.ly/2z1PKhB', 'https://www.yelp.com/biz/kaisen-sushi-san-francisco', 'Kaisen Sushi');
 INSERT INTO YelpData(yelp_api_ID, address, ZIP, type, imageURL, restaurantURL, name)
-VALUES ('dotties-true-blue-cafe-san-francisco', '28 6th St', 94103, 'American', 'http://bit.ly/2fVISxl', 'http://dottiestruebluesf.com', 'Dottie''s True Blue Cafe');
+VALUES ('dotties-true-blue-cafe-san-francisco', '28 6th St.\nSan Francisco, CA 94013', 94103, 'American', 'http://bit.ly/2fVISxl', 'http://dottiestruebluesf.com', 'Dottie''s True Blue Cafe');
 INSERT INTO owners (login, password) VALUES ('dottie',         '$2a$10$GkOsXnKFkDJdCvrcwqdeQ.IJwMi1L7Awt/ASLqqC90l6ChDEoDAEa'); -- dottie123!
 INSERT INTO owners (login, password) VALUES ('tulan',          '$2a$10$r77J3S7bQwGXVshMEE8mN.J9nD2gVrxCI8TGx.SjO7dwgZbSCol1y'); -- tulangood
 INSERT INTO owners (login, password) VALUES ('tworestaurants', '$2a$10$BfLR2MqVeKmfasaB/aeVxeqxgjH6aEgDR17or0mxl910MlEsloXrS'); -- 22
@@ -185,10 +185,10 @@ INSERT INTO Deals (yelp_ID, price, dealName, description, imageURL, startDate, s
 VALUES (2, 6.50, '$6.50 Flying Falafel', '$1 off our famous flying falafel pocket sandwich after 2pm', 'http://bit.ly/2xZrTyG', '2017-10-09', '14:00', '2017-10-09', '16:30');
 INSERT INTO Deals (yelp_ID, price, dealName, description, imageURL, startDate, startTime, endDate, endTime)
 VALUES (3, 10.50, 'Box Burger Special', 'Until 7pm, sink your teeth into our famous Box Burger with fries or salad for just $10', 'http://bit.ly/2xm26E0', '2017-10-09', '16:00', '2017-10-09', '19:00');
-INSERT INTO Deals (yelp_ID, price, dealName, description, startDate, startTime, endDate, endTime)
-VALUES (5, 5.00, 'Muffin & coffee', 'Enjoy one of Dottie''s fresh-baked breakfast treats and coffee.', '2017-10-10', '06:00', '2017-10-10', '08:30');
-INSERT INTO Deals (yelp_ID, price, dealName, description, startDate, startTime, endDate, endTime)
-VALUES (1, 7.00, 'Late night noodle soup', 'Any noodle soup only $7 after 8pm tonight', '2017-10-09', '20:00', '2017-10-09', '22:00');
+INSERT INTO Deals (yelp_ID, price, dealName, description, imageURL, startDate, startTime, endDate, endTime)
+VALUES (5, 5.00, 'Muffin & coffee', 'Enjoy one of Dottie''s fresh-baked breakfast treats and coffee.', 'https://s3-media2.fl.yelpcdn.com/bphoto/tv_cKH8_3yMMwNA3EuktTA/348s.jpg', '2017-10-10', '06:00', '2017-10-10', '08:30');
+INSERT INTO Deals (yelp_ID, price, dealName, description, imageURL, startDate, startTime, endDate, endTime)
+VALUES (1, 7.00, 'Late night noodle soup', 'Any noodle soup only $7 after 8pm tonight', 'https://s3-media1.fl.yelpcdn.com/bphoto/lLrHtblYyL8PCp-IMygXBw/o.jpg', '2017-10-09', '20:00', '2017-10-09', '22:00');
 INSERT INTO CheapItems (yelp_ID, price, menuItem, imageURL, description)
 VALUES (2, 6.00, 'Hummus Saucer', 'http://bit.ly/2ys7FAM', 'A bed of hummus dip with veggies and warm pita. Gluten-free.');
 INSERT INTO CheapItems (yelp_ID, price, menuItem, imageURL, description)
