@@ -12,13 +12,15 @@ class RestaurantList extends React.Component {
       modifyModal: false, // RestaurantList
       mName: '',
       mAddress: '',
-      mZIP: -1,
+      mZIP: '',
       mType: '',
       mImageURL: '',
       mRestaurantURL: '',
       mYelpID: '',
       prevName: '',
+      tempRList: [],
     }
+    this.updateRestaurantList = this.updateRestaurantList.bind(this);
   }
 
   componentDidMount() {
@@ -41,13 +43,33 @@ class RestaurantList extends React.Component {
       modifyModal: true,
       mName: '',
       mAddress: '',
-      mZIP: 0,
+      mZIP: '',
       mType: '',
       mImageURL: '',
       mRestaurantURL: '',
       mYelpID: '',
       prevName: '',
     })
+  }
+
+  updateRestaurantList ({name = this.this.state.mName, type = this.state.mType,
+      zip = this.state.mZIP, addr = this.state.mAddress} = {}) {
+    console.log('/find/restaurants');
+    axios.get('/find/restaurants', { 
+      params: {
+        term: `${name}, ${type}`,
+        location: `${zip}, ${addr}`,
+      },
+    }).then(result => {
+      console.log('result of restaurantSearch\n', result.data.businesses);
+      if (result.data.businesses) {
+        this.setState({
+          tempRList: result.data.businesses,
+        });
+      }
+    }).catch(err => {
+      console.log('err in update restaurant\n', err);
+    });
   }
 
   selectRestaurant (restaurant) {
@@ -82,21 +104,25 @@ class RestaurantList extends React.Component {
     this.setState({
       mName: event.target.value,
     });
+    this.updateRestaurantList({name: event.target.value});
   }
   updateMAddress(event) {
     this.setState({
       mAddress: event.target.value,
-    })
+    });
+    this.updateRestaurantList({addr: event.target.value});
   }
   updateMZIP(event) {
     this.setState({
       mZIP: event.target.value,
-    })
+    });
+    this.updateRestaurantList({zip: event.target.value});
   }
   updateMType(event) {
     this.setState({
       mType: event.target.value,
-    })
+    });
+    this.updateRestaurantList({type: event.target.value});
   }
   updateMImageURL(event) {
     this.setState({
@@ -154,6 +180,19 @@ class RestaurantList extends React.Component {
     }
   }
 
+  selectList(event) {
+    let temp = this.state.tempRList.find(element => element.name === event.target.value);
+    console.log('selectList', temp);
+    this.setState({
+      mAddress: `${temp.location.display_address[0]}, ${temp.location.display_address[1]}`,
+      mZIP: temp.location.zip_code,
+      mType: temp.categories[0].title,
+      mImageURL: temp.image_url,
+      mRestaurantURL: temp.url,
+      mYelpID: temp.id,
+    });
+  }
+
   render() {
     return (
       <div className="col3">
@@ -177,7 +216,7 @@ class RestaurantList extends React.Component {
           style={{"content":{"top":"100px","left":"100px","right":"100px","bottom":"100px"}}}>
 
           <h1>Restaurant Info.</h1>
-          Name: <input type="text" value={this.state.mName} onChange={this.updateMName.bind(this)} /> <br />
+          Name: <input list="rl" onChange={this.updateMName.bind(this)} onInput={this.selectList.bind(this)} /> <datalist id="rl">{this.state.tempRList.map(r => <option label={r.name} value={r.name} />)}</datalist> <br />
           Address: <input type="text" value={this.state.mAddress} onChange={this.updateMAddress.bind(this)} /> <br />
           ZIP: <input type="text" value={this.state.mZIP} onChange={this.updateMZIP.bind(this)} /> <br />
           Type: <input type="text" value={this.state.mType} onChange={this.updateMType.bind(this)} /> <br />
@@ -195,4 +234,6 @@ class RestaurantList extends React.Component {
 
 
 export default RestaurantList;
+
+// Name: <input type="text" value={this.state.mName} onChange={this.updateMName.bind(this)} /> <br />
 
