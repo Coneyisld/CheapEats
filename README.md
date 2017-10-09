@@ -15,14 +15,13 @@
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
 1. [Roadmap](#roadmap)
 1. [Contributing](#contributing)
 
 ## Usage
 
 - Run 'npm start'
-- Instructions to start database [here](database/index.js)
+- Database instructions [here](database/index.js).
 
 ## Requirements
 
@@ -35,6 +34,10 @@
 
 ## Development
 
+- Database schema, roadmap, user stories, and system architecture [here](http://bit.ly/2fUtjD0).
+- Trello board [here](https://trello.com/b/tEXBjgvN/cheapeats-app).
+
+
 ### Installing Dependencies
 
 From within the root directory:
@@ -44,11 +47,11 @@ npm install -g bower
 npm install
 bower install
 ```
-Database instructions/dependencies [here](database/index.js)
+Database instructions and dependencies [here](database/index.js).
 
 ### Roadmap
 
-View the project roadmap [here](ROADMAP.md)
+View the project roadmap [here](ROADMAP.md).
 
 
 ## Contributing
