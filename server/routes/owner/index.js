@@ -47,14 +47,14 @@ const ownerRoutes = (app, passport) =>{
   app.get('/owner/signup', (req, res, next) => {
     // should display owner signup page
     console.log('GET owner/signup');
-    res.send('GET owner/signup');
+    res.sendFile(path.join(__dirname, '../../../client/public/signup.html'));
   });
 
   // TODO: implement signup
   app.post('/owner/signup', 
     passport.authenticate('local-signup', {
       successRedirect: '/owner',
-      failureRedirect: '/signup',
+      failureRedirect: '/owner/signup',
       session: true,
     })
   );

@@ -27,7 +27,7 @@ const models = require('../../database');
 const auth = (app,passport) => {
 
   passport.serializeUser((user, done) => {
-    console.log('serializeUser user:', user.id);
+    console.log('serializeUser user id:', user.id);
     done(null, user.id);
   });
 
@@ -55,7 +55,7 @@ const auth = (app,passport) => {
     console.log('local-signup');
     models.getOwnerByLogin(login)
       .then(owners => {
-        if(owners.length !== 0) {
+        if(owners.rows.length !== 0) {
           throw new Error('signup: duplicate username!');
         } else {
           return genHash(password);
@@ -63,9 +63,9 @@ const auth = (app,passport) => {
       }).then(hash => {
         return models.saveOwner({login:login, password: hash});
       }).then(newOwner => {
-        return done(null, newOwner);
+        return done(null, newOwner.rows[0]);
       }).catch(err => {
-        console.log('signup error!!!!!!')
+        console.log('signup error!!!!!!\n', err);
         return done(null, false);
       });
   }))
