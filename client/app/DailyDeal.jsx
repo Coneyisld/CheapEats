@@ -7,11 +7,10 @@ const DailyDeal = (props) => (
   <div className="container">
       <h1 className="display-3">Deal Of the Day!</h1>
   	<div id="mainBorder">
-      <h2>{props.data[0].restaurantName}</h2>
-      <img src="./img/waffle.jpg" id="dealOfDayImg" />
+      <h2>{props.data[0].dealname}</h2>
+      <img src={props.data[0].imageurl} id="dealOfDayImg" />
       <p className="lead"> price: ${props.data[0].price}</p>
-      <p className="lead">location: {props.data[0].location}</p>
-      <p className="lead">expiration: {props.data[0].expirationDate}</p>
+      <p className="lead">description: {props.data[0].description}</p>
     </div>
   </div>
 </div>

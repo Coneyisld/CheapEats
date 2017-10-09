@@ -145,7 +145,8 @@ const getDeals = (zip, cuisineType) => {
 
   var query;
   if (zip === undefined && cuisineType === undefined) {
-    query = "SELECT * FROM Deals WHERE" + dateQuery;
+    // query = "SELECT * FROM Deals WHERE" + dateQuery;
+    query = "SELECT * FROM Deals";
   } else if (zip !== undefined && cuisineType === undefined) {
     query = "SELECT * from Deals WHERE yelp_ID IN (SELECT id FROM YelpData WHERE ZIP = " + zip + ") AND" + dateQuery;
   } else {

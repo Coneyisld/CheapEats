@@ -19,7 +19,7 @@ class App extends React.Component {
     console.log("updateQuery RANnnn!!!")
     console.log(cuisine)
     $.ajax({
-      type: 'POST',
+      type: 'GET',
       url: '/cheapitems',
       contentType: 'application/json',
       data: JSON.stringify({cuisine,zipCode}),
@@ -29,24 +29,24 @@ class App extends React.Component {
       error: (err) => {
         console.log('ERROR', err)
       }
-    }).then({})
+    })
   }
 
 
-  componentDidMount(cuisine, zipCode) {
-    console.log("updateQuery RANnnn!!!")
-    console.log(cuisine)
+  componentDidMount() {
+    console.log("componentMounted RANnnn!!!")
     $.ajax({
       type: 'GET',
-      url: '/cheapitems',
+      url: '/deals',
       contentType: 'application/json',
-      success: () => {
+      success: (data) => {
         console.log('data received')
       },
       error: (err) => {
         console.log('ERROR', err)
       }
-    })
+    }).then( data => this.setState({data:data}) )
+    
   }
 
 
@@ -55,6 +55,7 @@ class App extends React.Component {
       return (
          <div>
           <NavBar updateQuery={this.updateQuery.bind(this)} /> 
+          {console.log("HERE", this.state.queryData)}
           <DailyDeal data={this.state.data} />
           <div className="container">
             <MainContent data={this.state.data}/>
