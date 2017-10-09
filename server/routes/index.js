@@ -26,6 +26,7 @@ const routes = (app, passport) => {
   app.get('/find/restaurants', (req, res) => {
     var term = req.query.term;
     var location = req.query.location;
+    console.log('find/restaurants: ', req.query);
     yelp.getClosestMatches(term, location)
     .then((response) => {
       var body = response.body;
