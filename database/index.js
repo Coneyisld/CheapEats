@@ -216,7 +216,7 @@ const saveOwner = (owner) => {
   var login = owner.login;
   var password = owner.password;
 
-  var query = "INSERT INTO Owners (login, password) VALUES ($1, $2)";
+  var query = "INSERT INTO Owners (login, password) VALUES ($1, $2) RETURNING *";
   var values = [login, password];
 
   return new Promise(function(resolve, reject) {
