@@ -3,7 +3,6 @@ import Restaurant from './Restaurant.jsx';
 import axios from 'axios';
 import Modal from 'react-modal';
 
-
 class RestaurantList extends React.Component {
   constructor(props) {
     super(props);
@@ -216,16 +215,21 @@ class RestaurantList extends React.Component {
           style={{"content":{"top":"100px","left":"100px","right":"100px","bottom":"100px"}}}>
 
           <h1>Restaurant Info.</h1>
-          Name: <input list="rl" onChange={this.updateMName.bind(this)} onInput={this.selectList.bind(this)} /> <datalist id="rl">{this.state.tempRList.map(r => <option label={r.name} value={r.name} />)}</datalist> <br />
-          Address: <input type="text" value={this.state.mAddress} onChange={this.updateMAddress.bind(this)} /> <br />
-          ZIP: <input type="text" value={this.state.mZIP} onChange={this.updateMZIP.bind(this)} /> <br />
-          Type: <input type="text" value={this.state.mType} onChange={this.updateMType.bind(this)} /> <br />
-          ImageURL: <input type="text" value={this.state.mImageURL} onChange={this.updateMImageURL.bind(this)} /> <br />
-          RestaurantURL: <input type="text" value={this.state.mRestaurantURL} onChange={this.updateMRestaurantURL.bind(this)} /> <br />
-          Yelp ID: <input type="text" value={this.state.mYelpID} onChange={this.updateMYelpID.bind(this)} /> <br />
-          <button onClick={this.updateRestaurant.bind(this)}>Update</button>
-          <button onClick={this.closeModal.bind(this)}>Cancel</button>
-          <button onClick={this.closeModal.bind(this)}>Delete</button>
+          <div className="col2-3">
+            Name: <input list="rl" onChange={this.updateMName.bind(this)} onInput={this.selectList.bind(this)} /> <datalist id="rl">{this.state.tempRList.map(r => <option label={r.name} value={r.name} />)}</datalist> <br />
+            Address: <input type="text" value={this.state.mAddress} onChange={this.updateMAddress.bind(this)} /> <br />
+            ZIP: <input type="text" value={this.state.mZIP} onChange={this.updateMZIP.bind(this)} /> <br />
+            Type: <input type="text" value={this.state.mType} onChange={this.updateMType.bind(this)} /> <br />
+            ImageURL: <input type="text" value={this.state.mImageURL} onChange={this.updateMImageURL.bind(this)} /> <br />
+            RestaurantURL: <input type="text" value={this.state.mRestaurantURL} onChange={this.updateMRestaurantURL.bind(this)} /> <br />
+            Yelp ID: <input type="text" value={this.state.mYelpID} onChange={this.updateMYelpID.bind(this)} /> <br />
+            <button onClick={this.updateRestaurant.bind(this)}>Update</button>
+            <button onClick={this.closeModal.bind(this)}>Cancel</button>
+            <button onClick={this.closeModal.bind(this)}>Delete</button>
+          </div>
+          <div className= "col1-3">
+            <img className="image" src={this.state.mImageURL} />
+          </div>  
         </Modal>
       </div>
     );
@@ -234,6 +238,4 @@ class RestaurantList extends React.Component {
 
 
 export default RestaurantList;
-
-// Name: <input type="text" value={this.state.mName} onChange={this.updateMName.bind(this)} /> <br />
 
