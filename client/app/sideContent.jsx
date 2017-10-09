@@ -6,8 +6,7 @@ const sideContent = (props) => (
     <div className="list-group">
   	  <h3>Roscoe's WAFL</h3>
       <img src="./img/waffle.jpg" id="dealOfDayImg" />
-      <h4>{props.data[5].restaurantName}</h4>
-      <p>price: ${props.data[5].price}</p>
+      <p>price: $2.00</p>
       <p>Location: 944 Market Street!</p>
       <p><span>Expired</span></p>
     </div>

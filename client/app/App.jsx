@@ -2,6 +2,7 @@ import React from 'react';
 import NavBar from './NavBar.jsx';
 import DailyDeal from './DailyDeal.jsx';
 import MainContent from './mainContent.jsx';
+import Axios from 'axios';
 
 const $ = require("jquery");
 const FakeData = require('../../exampleData/exampleData.js')
@@ -16,20 +17,12 @@ class App extends React.Component {
   }
 
   updateQuery(cuisine, zipCode) {
-    console.log("updateQuery RANnnn!!!")
-    console.log(cuisine)
-    $.ajax({
-      type: 'GET',
-      url: '/cheapitems',
-      contentType: 'application/json',
-      data: JSON.stringify({cuisine,zipCode}),
-      success: (data) => {
-        console.log('data received')
-      },
-      error: (err) => {
-        console.log('ERROR', err)
-      }
-    })
+    console.log("updateQuery RANnnn!!!", cuisine, zipCode)
+    Axios.get(`/deals/${zipCode}/${cuisine}`).then( data => { 
+      console.log("DATA", data);
+      this.setState({data: data.data});
+      
+    });
   }
 
 

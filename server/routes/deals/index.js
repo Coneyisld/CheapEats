@@ -17,6 +17,7 @@ const dealsRoutes = (app) =>{
   })
 
   app.get('/deals/:zip', (req, res) => {
+    console.log("LOOKY")
     console.log(`get deals at ${req.params.zip}`);
     // query deals with ZIP table, and get 25 deals
     cDB.getDeals(req.params.zip)
@@ -33,7 +34,7 @@ const dealsRoutes = (app) =>{
     // query deals table with ZIP and cuisineType, and get 25 deals
     cDB.getDeals(req.params.zip, req.params.cuisineType)
       .then(deals => {
-        console.log(deals.rows);
+        console.log('DEALS',deals.rows);
         res.send(deals.rows);
       }).catch(err => {
         console.log('GET deals error');

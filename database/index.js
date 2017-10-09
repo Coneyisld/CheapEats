@@ -148,10 +148,12 @@ const getDeals = (zip, cuisineType) => {
     // query = "SELECT * FROM Deals WHERE" + dateQuery;
     query = "SELECT * FROM Deals";
   } else if (zip !== undefined && cuisineType === undefined) {
-    query = "SELECT * from Deals WHERE yelp_ID IN (SELECT id FROM YelpData WHERE ZIP = " + zip + ") AND" + dateQuery;
+    query = "SELECT * from Deals WHERE yelp_ID IN (SELECT id FROM YelpData WHERE ZIP = " + zip + ")";
+    //" AND" + dateQuery;
   } else {
     //may need to force cuisineType to lower case in database
-    query = "SELECT * from Deals WHERE yelp_ID IN (SELECT id FROM YelpData WHERE ZIP = " + zip + " AND type LIKE '%" + cuisineType +"%') AND" + dateQuery;
+    query = "SELECT * from Deals WHERE yelp_ID IN (SELECT id FROM YelpData WHERE ZIP = " + zip + " AND type LIKE '%" + cuisineType +"%') ";
+    //AND" + dateQuery;
   }
 
   return new Promise(function(resolve, reject) {
