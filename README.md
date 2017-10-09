@@ -4,7 +4,7 @@
 
 ## Team
 
-  - Alber Chung
+  - Albert Chung
   - Roscoe Coney
   - Tiffany Barth
   - Christine Taylor
@@ -21,15 +21,17 @@
 
 ## Usage
 
-> Some usage instructions
+- Run 'npm start'
+- Instructions to start database [here](database/index.js)
 
 ## Requirements
 
-- Node 6.4.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Node 6.4.0
+- Express 4.16.1
+- Postgresql 9.6.5
+- React 16.0.0
+- Webpack 3.6.0
+
 
 ## Development
 
@@ -42,6 +44,7 @@ npm install -g bower
 npm install
 bower install
 ```
+Database instructions/dependencies [here](database/index.js)
 
 ### Roadmap
 
